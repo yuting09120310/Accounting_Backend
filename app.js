@@ -18,6 +18,7 @@ const corsOptions = {
   origin: [
     'http://www.example.com',
     'http://localhost:5500',
+    'https://alexaccconunting.herokuapp.com'
   ],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: ['Content-Type', 'Authorization'],
