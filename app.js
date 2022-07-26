@@ -16,10 +16,9 @@ app.use(cors());
 
 const corsOptions = {
   origin: [
-    'http://www.example.com',
-    'http://localhost:5500',
-    'https://alexaccconunting.herokuapp.com',
-    "http://127.0.0.1:5501/"
+    'http://127.0.0.1:5500',
+    "http://127.0.0.1:5501/",
+    "https://yuting09120310.github.io/"
   ],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: ['Content-Type', 'Authorization'],
