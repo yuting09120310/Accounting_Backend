@@ -12,7 +12,7 @@ const secretKey = 'DEMO';
 
 router.post("/login", (req, res) => {
   //利用使用者post進來的資料去搜尋資料庫
-  let data = 'SELECT * FROM `user_login` WHERE password = ' + `'${req.body.password}'` + 'user =' + `'${req.body.username}'`;
+  let data = 'SELECT * FROM `user_login` WHERE password = ' + `'${req.body.password}'` + 'AND user =' + `'${req.body.username}'`;
   mc.query(data, function (error, results, fields) {
     //如果results => 搜尋結果大於1 那就給予token 授予以下curd功能  由於results是物件 不能直接做判斷 所以須先轉型確認長度
     var size = Object(results).length;
