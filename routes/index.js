@@ -12,7 +12,7 @@ const secretKey = 'DEMO';
 
 router.post("/login", (req, res) => {
   //利用使用者post進來的資料去搜尋資料庫
-  let data = 'SELECT * FROM `user_login` WHERE password = ' + `'${req.body.password}'`;
+  let data = 'SELECT * FROM `user_login` WHERE password = ' + `'${req.body.password}'` + 'user =' + `'${req.body.username}'`;
   mc.query(data, function (error, results, fields) {
     //如果results => 搜尋結果大於1 那就給予token 授予以下curd功能  由於results是物件 不能直接做判斷 所以須先轉型確認長度
     var size = Object(results).length;
@@ -35,20 +35,6 @@ router.post("/login", (req, res) => {
   });
 });
 
-
-//搜尋全部使用者
-router.get('/account', function (req, res) {
-  // 是為了修復 CORS 的問題而設
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-  mc.query('SELECT * FROM user_login', function (error, results, fields) {
-    if (error) throw error;
-    return res.send({ data: results });
-  });
-
-});
-
 //搜尋特定使用者
 router.get('/account/:id', function (req, res) {
   // 是為了修復 CORS 的問題而設
@@ -67,14 +53,14 @@ router.post('/checkUser', function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-  let data = 'SELECT * FROM `user_login` WHERE password = ' + `'${req.body.password}'`;
+  let data = 'SELECT * FROM `user_login` WHERE user = ' + `'${req.body.username}'`;
 
   mc.query(data,  function (error, results, fields) {
     var size = Object(results).length;
     console.log(results)
 
     if (size > 0) {
-      return res.send({ error: true, data: error, message: '已有相同密碼' });;
+      return res.send({ error: true, data: error, message: '已有相同帳號' });;
     }
     else {
       return res.send({ error: false, data: results, message: 'OK' });
@@ -91,8 +77,6 @@ router.post('/addUser', function (req, res) {
   console.log(addData)
 
   let {userNamem, password, account_one, money_one , account_two , money_two , account_three ,money_three} = req.body
-
-  
 
   let account = [[account_one,money_one],[account_two,money_two],[account_three,money_three]]
 
