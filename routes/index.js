@@ -35,6 +35,7 @@ router.post("/login", (req, res) => {
   });
 });
 
+
 //搜尋特定使用者
 router.get('/account/:id', function (req, res) {
   // 是為了修復 CORS 的問題而設
@@ -99,6 +100,7 @@ router.post('/addUser', function (req, res) {
 
 // -----------------------------------------------------------------------------------------------------------
 
+
 //登入後帶出使用者銀行
 router.get('/bank/:id', function (req, res) {
   // 是為了修復 CORS 的問題而設
@@ -110,6 +112,7 @@ router.get('/bank/:id', function (req, res) {
     return res.send({ data: results });
   });
 });
+
 
 //帶出使用者花費歷史紀錄
 router.get('/record/:id', function (req, res) {
