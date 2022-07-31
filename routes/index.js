@@ -68,33 +68,33 @@ router.post('/checkUser', function (req, res) {
   });
 });
 
+
 //新增使用者
 router.post('/addUser', function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-  var addData = req.body
-  console.log(addData)
-
-  let {userNamem, password, account_one, money_one , account_two , money_two , account_three ,money_three} = req.body
+  let {userName, password, account_one, money_one , account_two , money_two , account_three ,money_three} = req.body
 
   let account = [[account_one,money_one],[account_two,money_two],[account_three,money_three]]
+  let userId;
 
-  account.forEach(element => {
-    if(element[0].length != 0){
-      console.log(element[0],element[1]);
-    } 
-  });
+  let addUserSQL = 'INSERT INTO `user_login` (`user`, `password`) VALUES ' + `('${userName}','${password}')`;
+  mc.query(addUserSQL);
 
-  //  ? 會讀取後面的 addData
-  // mc.query('INSERT INTO user_login SET ?', addData, function (error, results, fields) {
-  //   if (error) {
-  //     return res.send({ error: true, data: error, message: '已有相同密碼' });;
-  //   }
-  //   else {
-  //     return res.send({ error: false, data: results, message: '新增使用者成功' });
-  //   }
-  // });
+
+  let selectIdSQL = 'SELECT userId FROM `user_login` WHERE user = ' + `'${userName}'`;
+  mc.query(selectIdSQL, function (error, results, fields){
+    userId = results[0].userId,
+    account.forEach(element => {
+      if(element[0].length != 0){
+        let addAccountSQL = 'INSERT INTO `account_bank`(`userId`, `bank` , `money`) VALUES ' + `('${userId}','${element[0]}','${element[1]}')`;
+        mc.query(addAccountSQL);
+      } 
+    })
+  })
+
+  return res.send({ data: "申請完成" });
 });
 
 // -----------------------------------------------------------------------------------------------------------
